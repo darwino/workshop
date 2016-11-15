@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: workshop-darwinodb
+Bundle-SymbolicName: org.darwino.workshop.darwinodb
+Bundle-Version: 0.0.1.qualifier
+DARWINO_VERSION: 1.5.0-SNAPSHOT
+Require-Bundle: com.darwino.domino.platform;resolution:=optional
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
