@@ -21,23 +21,85 @@
  */
 package org.darwino.workshop.jstore;
 
+import com.darwino.commons.Platform;
+import com.darwino.commons.security.acl.User;
+import com.darwino.commons.security.acl.impl.UserImpl;
+import com.darwino.commons.util.PathUtil;
+import com.darwino.jdbc.connector.JdbcConnector;
+import com.darwino.jdbc.connector.JdbcDirectConnector;
 import com.darwino.jsonstore.LocalJsonDBServer;
+import com.darwino.jsonstore.Session;
+import com.darwino.jsonstore.meta._ServerACL;
+import com.darwino.jsonstore.sql.impl.full.LocalFullJsonDBServerImpl;
+import com.darwino.jsonstore.sql.impl.full.SqlContext;
+import com.darwino.jsonstore.sql.impl.full.context.SqlJdbcContext;
+import com.darwino.sql.drivers.DBDriver;
+import com.darwino.sql.drivers.postgresql.PostgreSQLDriver;
 
 /**
  * Common workshop utilities.
  * 
  * @author Philippe Riand
  */
-public class Base {
-	
+public abstract class Base {
+
+	// RDBMS parameters 
+	public static final String RDBMS_SERVER		= "jdbc:postgresql://localhost:5434";
+	public static final String RDBMS_DATABASE	= "workshop";
+	public static final String RDBMS_SCHEMA		= null;
+	public static final String RDBMS_USER		= "postgres";
+	public static final String RDBMS_PASSWORD	= "postgres";
+
+	// JSON Store parameters
 	public static final String DATABASE_NAME	= "workshop";
 	
+	private static LocalJsonDBServer server;
+	private static Session defaultSession;
 	static {
-		// todo...
+		try {
+			// Use POSTGRESQL as the database
+			DBDriver dbDriver = new PostgreSQLDriver(PostgreSQLDriver.CURRENT_VERSION);
+			
+			// Create a direct JDBC connector (no connection pool)
+			// Other connector can be used
+			//	- Embedded Connection Pool
+			//	- JEE/JNDI datasource
+			//  - Cloud connector
+			JdbcConnector connector = new JdbcDirectConnector(
+				JdbcConnector.TRANSACTION_READ_COMMITTED,
+				dbDriver.getDriverClass(),
+				PathUtil.concat(RDBMS_SERVER,RDBMS_DATABASE),
+				RDBMS_USER,
+				RDBMS_PASSWORD,
+				null	// JDBC properties
+			);
+			
+			// Create a SQL context to the database
+			SqlContext dbContext = SqlJdbcContext.create(dbDriver,connector,RDBMS_SCHEMA);
+			
+			// Map the server to this context
+			_ServerACL acl = null;
+			server = new LocalFullJsonDBServerImpl(dbContext, acl);
+			
+			// Create a DB session
+			User user = new UserImpl("joe@darwino.org", "Joe Darwino");
+			defaultSession = server.createSession(user, null);
+		} catch(Exception e) {
+			IllegalStateException ne = new IllegalStateException("Error while initializing database");
+			ne.initCause(e);
+			throw ne;
+		}
 	}
-	private LocalJsonDBServer server;
 	
-	public LocalJsonDBServer getServer() {
+	public static LocalJsonDBServer getServer() {
 		return server;
+	}
+	
+	public static Session getSession() {
+		return defaultSession;
+	}
+	
+	public static void log(String msg, Object...p) {
+		Platform.log(msg,p);
 	}
 }

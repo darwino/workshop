@@ -23,6 +23,15 @@ package org.darwino.workshop.jstore.deployment;
 
 import org.darwino.workshop.jstore.Base;
 
+import com.darwino.commons.Platform;
+import com.darwino.commons.json.JsonException;
+import com.darwino.commons.util.StringUtil;
+import com.darwino.jsonstore.Database;
+import com.darwino.jsonstore.impl.DatabaseFactoryImpl;
+import com.darwino.jsonstore.meta._Database;
+import com.darwino.jsonstore.meta._FtSearch;
+import com.darwino.jsonstore.meta._Store;
+
 /**
  * Deploy a database to the RDBMS.
  * 
@@ -30,4 +39,51 @@ import org.darwino.workshop.jstore.Base;
  */
 public class DeployDatabase extends Base {
 
+	public static void main(String[] args) {
+		try {
+			(new DeployDatabase()).run();
+		} catch(Throwable t) {
+			Platform.log(t);
+		}
+	}
+	
+	
+	public void run() throws Exception {
+		getServer().deployDatabase(DATABASE_NAME, new AppDatabaseDef(), null, false, null);
+		log("Database {0} successfully deployed!",DATABASE_NAME);
+	}
+
+	/**
+	 * Definition of a simple database.
+	 */
+	public class AppDatabaseDef extends DatabaseFactoryImpl {
+
+		public static final int DATABASE_VERSION	= 1;
+		
+		@Override
+		public int getDatabaseVersion(String databaseName) throws JsonException {
+			if(!StringUtil.equalsIgnoreCase(databaseName, DATABASE_NAME)) {
+				return -1;
+			}
+			return DATABASE_VERSION;
+		}
+		
+		@Override
+		public _Database loadDatabase(String databaseName) throws JsonException {
+			if(!StringUtil.equalsIgnoreCase(databaseName, DATABASE_NAME)) {
+				return null;
+			}
+			_Database db = new _Database(DATABASE_NAME, "Contacts", DATABASE_VERSION);
+			
+			// Customize the default stores, if desired...
+			{
+				_Store _def = db.getStore(Database.STORE_DEFAULT);
+				_def.setFtSearchEnabled(true);
+				_FtSearch ft = (_FtSearch) _def.setFTSearch(new _FtSearch());
+				ft.setFields("$");
+			}
+
+			return db;
+		}
+	}
 }

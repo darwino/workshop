@@ -19,6 +19,12 @@
 			<artifactId>dwo-jre-jsonstore-jdbc</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>9.4.1211.jre6</version>
+		</dependency>
 	</dependencies>
 	
 </project>
