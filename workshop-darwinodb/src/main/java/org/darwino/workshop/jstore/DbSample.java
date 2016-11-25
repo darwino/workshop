@@ -21,6 +21,8 @@
  */
 package org.darwino.workshop.jstore;
 
+import org.darwino.workshop.commons.CommonSample;
+
 import com.darwino.commons.Platform;
 import com.darwino.commons.security.acl.User;
 import com.darwino.commons.security.acl.impl.UserImpl;
@@ -41,7 +43,7 @@ import com.darwino.sql.drivers.postgresql.PostgreSQLDriver;
  * 
  * @author Philippe Riand
  */
-public abstract class Base {
+public abstract class DbSample extends CommonSample {
 
 	// RDBMS parameters 
 	public static final String RDBMS_SERVER		= "jdbc:postgresql://localhost:5434";

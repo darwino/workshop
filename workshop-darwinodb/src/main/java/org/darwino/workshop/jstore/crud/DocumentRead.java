@@ -21,13 +21,13 @@
  */
 package org.darwino.workshop.jstore.crud;
 
-import org.darwino.workshop.jstore.Base;
+import org.darwino.workshop.jstore.DbSample;
 
 /**
  * CRUD Operations on documents.
  * 
  * @author Philippe Riand
  */
-public class DocumentRead extends Base {
+public class DocumentRead extends DbSample {
 
 }

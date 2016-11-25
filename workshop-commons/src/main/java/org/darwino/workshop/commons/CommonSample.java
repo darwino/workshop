@@ -19,10 +19,15 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.darwino.workshop.jstore.deployment;
+package org.darwino.workshop.commons;
 
-import org.darwino.workshop.jstore.DbSample;
+import org.darwino.workshop.WorkshopSample;
 
-public class OpenSession extends DbSample {
-
+/**
+ * Common workshop utilities.
+ * 
+ * @author Philippe Riand
+ */
+public class CommonSample extends WorkshopSample {
+	
 }

@@ -21,7 +21,7 @@
  */
 package org.darwino.workshop.jstore.deployment;
 
-import org.darwino.workshop.jstore.Base;
+import org.darwino.workshop.jstore.DbSample;
 
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
@@ -37,18 +37,9 @@ import com.darwino.jsonstore.meta._Store;
  * 
  * @author Philippe Riand
  */
-public class DeployDatabase extends Base {
+public class DeployDatabase extends DbSample {
 
-	public static void main(String[] args) {
-		try {
-			(new DeployDatabase()).run();
-		} catch(Throwable t) {
-			Platform.log(t);
-		}
-	}
-	
-	
-	public void run() throws Exception {
+	public void testDeploy() throws Exception {
 		getServer().deployDatabase(DATABASE_NAME, new AppDatabaseDef(), null, false, null);
 		log("Database {0} successfully deployed!",DATABASE_NAME);
 	}
