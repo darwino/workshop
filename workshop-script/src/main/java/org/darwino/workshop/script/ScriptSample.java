@@ -21,11 +21,13 @@
  */
 package org.darwino.workshop.script;
 
+import org.darwino.workshop.commons.CommonSample;
+
 /**
- * Common workshop utilities.
+ * Script workshop utilities.
  * 
  * @author Philippe Riand
  */
-public class Base {
+public class ScriptSample extends CommonSample {
 	
 }
