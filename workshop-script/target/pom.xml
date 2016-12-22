@@ -16,7 +16,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-jre-commons-script</artifactId>
+			<artifactId>dwo-commons-script</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-commons-script-jre</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
 
@@ -25,7 +30,6 @@
 			<artifactId>workshop-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 	</dependencies>
 	
 </project>
